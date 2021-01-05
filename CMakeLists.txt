@@ -17,11 +17,12 @@ cmake_minimum_required ( VERSION 2.8.12 )
 # project
 project ( wilton_embed CXX )
 
+# dependencies
+staticlib_add_subdirectory ( ${STATICLIB_DEPS}/external_utf8cpp )
+
 set ( ${PROJECT_NAME}_DEPS
         staticlib_config
         staticlib_support
-        staticlib_io
-        staticlib_ranges
         staticlib_utils
         staticlib_json
         staticlib_tinydir
@@ -66,14 +67,6 @@ target_include_directories ( ${PROJECT_NAME} BEFORE PRIVATE
         ${${PROJECT_NAME}_DEPS_PC_INCLUDE_DIRS} )
         
 target_compile_options ( ${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_DEPS_PC_CFLAGS_OTHER} )
-
-# platform-specific link options
-if ( STATICLIB_TOOLCHAIN MATCHES "android_.+" )
-    set_property ( TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS "-Wl,-soname,lib${PROJECT_NAME}.so" )
-elseif ( STATICLIB_TOOLCHAIN MATCHES "windows_.+" )
-    target_link_libraries ( ${PROJECT_NAME} PRIVATE wtsapi32 )
-    set_property ( TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS "/manifest:no" )
-endif ( )
 
 # mac dep paths
 if ( STATICLIB_TOOLCHAIN MATCHES "macosx_.+" )
