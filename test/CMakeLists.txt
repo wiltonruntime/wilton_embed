@@ -19,4 +19,9 @@ cmake_minimum_required ( VERSION 2.8.12 )
 project ( wilton_embed_test CXX )
 
 add_executable ( ${PROJECT_NAME} wilton_embed_test.cpp )
-target_link_libraries ( ${PROJECT_NAME} dl )
+
+if (WIN32)
+    target_compile_definitions ( ${PROJECT_NAME} PRIVATE -D_CRT_SECURE_NO_WARNINGS )
+else ()
+    target_link_libraries ( ${PROJECT_NAME} dl )
+endif ()

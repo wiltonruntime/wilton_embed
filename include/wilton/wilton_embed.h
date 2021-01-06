@@ -30,6 +30,12 @@
 extern "C" {
 #endif
 
+char* wilton_embed_alloc(
+        int size_bytes);
+
+void wilton_embed_free(
+        char* buffer);
+
 char* wilton_embed_init(
         const char* wilton_home,
         int wilton_home_len,
@@ -39,6 +45,14 @@ char* wilton_embed_init(
         int app_dir_len);
 
 char* wilton_embed_shutdown();
+
+char* wilton_embed_call(
+        const char* call_name,
+        int call_name_len,
+        const char* json_in,
+        int json_in_len,
+        char** json_out,
+        int* json_out_len);
 
 #ifdef __cplusplus
 }

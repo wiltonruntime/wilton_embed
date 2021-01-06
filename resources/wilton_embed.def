@@ -13,5 +13,8 @@
 ; limitations under the License.
 
 EXPORTS
-    wilton_embed_startup
+    wilton_embed_alloc
+    wilton_embed_free
+    wilton_embed_init
     wilton_embed_shutdown
+    wilton_embed_call

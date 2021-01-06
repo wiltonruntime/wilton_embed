@@ -205,6 +205,14 @@ void init_signals(const std::string& wilton_home) {
 
 } // namespace
 
+char* wilton_embed_alloc(int size_bytes) /* noexcept */ {
+    return wilton_alloc(size_bytes);
+}
+
+void wilton_embed_free(char* buffer) /* noexcept */ {
+    wilton_free(buffer);
+}
+
 char* wilton_embed_init(const char* wilton_home, int wilton_home_len,
         const char* script_engine, int script_engine_len,
         const char* app_dir, int app_dir_len) /* noexcept */ {
@@ -267,7 +275,7 @@ char* wilton_embed_init(const char* wilton_home, int wilton_home_len,
             {"compileTimeOS", "macos"}
 #endif // OS
         });
-        //std::cerr << config << std::endl;
+        // std::cerr << config << std::endl;
 
         // init
         auto err_init = wiltoncall_init(config.c_str(), static_cast<int> (config.length()));
@@ -278,6 +286,7 @@ char* wilton_embed_init(const char* wilton_home, int wilton_home_len,
         dyload_module(wilton_home_str, "wilton_loader");
         dyload_module(wilton_home_str, "wilton_" + script_engine_str);
         init_signals(wilton_home_str);
+        std::cerr << "signals" << std::endl;
 
         return nullptr;
     } catch (const std::exception& e) {
@@ -288,4 +297,10 @@ char* wilton_embed_init(const char* wilton_home, int wilton_home_len,
 char* wilton_embed_shutdown() /* noexcept */ {
     std::cout << "wilton_embed_shutdown" << std::endl;
     return nullptr;
+}
+
+char* wilton_embed_call(const char* call_name, int call_name_len,
+        const char* json_in, int json_in_len,
+        char** json_out, int* json_out_len) /* noexcept */ {
+    return wiltoncall(call_name, call_name_len, json_in, json_in_len, json_out, json_out_len);
 }
