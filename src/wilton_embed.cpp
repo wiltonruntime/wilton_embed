@@ -39,6 +39,9 @@ extern char** environ;
 #include "staticlib/io.hpp"
 #include "staticlib/json.hpp"
 #include "staticlib/support.hpp"
+#ifdef STATICLIB_WINDOWS
+#include "staticlib/support/windows.hpp"
+#endif // STATICLIB_WINDOWS
 #include "staticlib/tinydir.hpp"
 #include "staticlib/utils.hpp"
 #include "staticlib/unzip.hpp"
@@ -201,6 +204,10 @@ void init_signals(const std::string& wilton_home) {
         wilton_free(err_init);
         throw wilton::support::exception(msg);
     }
+#ifdef STATICLIB_WINDOWS
+    // https://stackoverflow.com/a/9719240/314015
+    ::SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+#endif // STATICLIB_WINDOWS
 }
 
 } // namespace
