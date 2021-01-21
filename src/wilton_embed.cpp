@@ -293,7 +293,6 @@ char* wilton_embed_init(const char* wilton_home, int wilton_home_len,
         dyload_module(wilton_home_str, "wilton_loader");
         dyload_module(wilton_home_str, "wilton_" + script_engine_str);
         init_signals(wilton_home_str);
-        std::cerr << "signals" << std::endl;
 
         return nullptr;
     } catch (const std::exception& e) {
