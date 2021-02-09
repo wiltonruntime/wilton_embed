@@ -160,7 +160,11 @@ std::string application_name(const std::string& appdir) {
         auto& json = conf.value();
         return json["appname"].as_string_nonempty_or_throw("conf/config.json:appname");
     }
-    return sl::utils::strip_parent_dir(appdir);
+    auto res = sl::utils::strip_parent_dir(appdir);
+    while (res.length() > 0 && ('/' == res.back() || '\\' == res.back())) {
+        res.pop_back();
+    }
+    return res;
 }
 
 std::string wilton_executable(const std::string& wilton_home) {
