@@ -245,7 +245,6 @@ char* wilton_embed_init(const char* wilton_home, int wilton_home_len,
         // paths and urls
         validate_paths(wilton_home_str, app_dir_str);
         auto stdlib_url = wilton::support::zip_proto_prefix + sl::tinydir::full_path(wilton_home_str + "/std.wlib");
-        auto app_dir_url = wilton::support::file_proto_prefix + sl::tinydir::full_path(app_dir_str);
         auto app_name_str = application_name(app_dir_str);
 
         // packages
